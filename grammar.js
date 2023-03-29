@@ -2,7 +2,29 @@ module.exports = grammar({
     name: "halppp",
     
     conflicts: $ => [
-        [$.class_constructor, $.type_annotation]
+        [$.class_constructor, $.type_annotation],
+        [$.expression, $.list_accessor],
+        [$.let_statement, $.expression],
+        [$.assignment_expression, $.subjective_expression],
+        [$.call_expression, $.subjective_expression],
+        [$.list_expression, $.subjective_expression],
+        [$.subjective_expression, $.subjective_expression],
+        [$.new_expression, $.assignment_expression],
+        [$.new_expression, $.subjective_expression],
+        [$.new_expression, $.call_expression],
+        [$.new_expression, $.list_expression],
+        [$.type_annotation, $.variable],
+        [$.assignment_expression, $.cast_expression],
+        [$.subjective_expression, $.cast_expression],
+        [$.call_expression, $.cast_expression],
+        [$.list_expression, $.cast_expression],
+        [$.new_expression, $.inline_ifelse_expression],
+        [$.subjective_expression, $.inline_ifelse_expression],
+        [$.cast_expression, $.inline_ifelse_expression],
+        [$.assignment_expression, $.inline_ifelse_expression],
+        [$.inline_ifelse_expression, $.inline_ifelse_expression],
+        [$.call_expression, $.inline_ifelse_expression],
+        [$.list_expression, $.inline_ifelse_expression],
     ],
 
     rules: {
@@ -10,14 +32,22 @@ module.exports = grammar({
             choice(
                 $.import_statement,
                 $.include_statement,
+                $.compiler_statement,
                 $.class_declaration,
                 $.enum_declaration,
                 $.glob_declaration,
                 $.method_definition,
+                $.comment,
             )),
         
         _include: $ => /[A-z_\.\"\/]+/,
         _get: $ => /[A-z_\[\/]+/,
+        compiler_statement: $ => seq(
+            'compiler',
+            '=>',
+            $.string,
+            '\n'
+        ),
         include_statement: $ => seq(
             choice('inc', 'use'),
             '=>',
@@ -51,7 +81,7 @@ module.exports = grammar({
             ';'
         ),
         class_declaration: $ => seq(
-            'class',
+            choice('class', 'struct'),
             $.identifier,
             optional($.class_extends),
             '\n',
@@ -65,7 +95,10 @@ module.exports = grammar({
             repeat(choice(
                 $.method_definition,
                 $.class_constructor,
-                $.class_property
+                $.class_property,
+                'pub',
+                'protected',
+                'private'
             )),
             ';'
         ),
@@ -136,6 +169,7 @@ module.exports = grammar({
             $.break_statement,
             $.continue_statement,
             $.let_statement,
+            $.comment,
         ),
         expression_statement: $ => seq(
             $.expression,
@@ -146,11 +180,27 @@ module.exports = grammar({
             $.assignment_expression
         ),
         if_statement: $ => seq(
-            'if', $.expression, $.block,
+            'if', $.expression,
+            choice(
+                $.general_do_statement,
+                seq('\n', $.block)
+            ),
             optional(repeat(
-                seq('elif', $.expression, $.block)
+                seq(
+                    'elif',
+                    $.expression,
+                    choice(
+                        $.general_do_statement,
+                        seq('\n', $.block)
+                    ),
+                )
             )),
-            optional(seq('else', '\n', $.block))
+            optional(seq('else', 
+                choice(
+                    $.general_do_statement,
+                    seq('\n', $.block)
+                ),
+            ))
         ),
         while_statement: $ => choice(
             seq('while',$.expression,$.block),
@@ -189,7 +239,8 @@ module.exports = grammar({
             $.expression,
             choice(
                 $.general_do_statement,
-                seq('\n', repeat($.expression_statement), $.break_statement)
+                seq('\n', repeat($.expression_statement), $.break_statement),
+                '\n'
             )
         ),
         general_do_statement: $ => seq(
@@ -198,7 +249,12 @@ module.exports = grammar({
                 'dore', 'doco',
                 'doremi'
             ),
-            $.expression_statement
+            choice(
+                $.expression_statement,
+                $.return_statement,
+                $.continue_statement,
+                $.break_statement,
+            )
         ),
         return_statement: $ => seq(
             'return',
@@ -209,13 +265,19 @@ module.exports = grammar({
         ),
         break_statement: $ => seq('break','\n'),
         continue_statement: $ => seq('continue','\n'),
+        new_expression: $ => seq('new', $.expression),
         expression: $ => choice(
             $.variable,
             $.literal,
+            $.new_expression,
             $.accessor_expression,
+            $.list_expression,
             $.assignment_expression,
             $.binary_expression,
+            $.subjective_expression,
             $.bracketed_expression,
+            $.cast_expression,
+            $.inline_ifelse_expression,
             $.unary_expression,
             $.constructor_expression,
             $.call_expression,
@@ -223,24 +285,32 @@ module.exports = grammar({
             $.this_expression,
             $.super_expression
         ),
-        variable: $ => $.identifier,
-        literal: $ => choice($.number, $.string, $.boolean, $.null),
+        variable: $ => seq(optional('&'),$.identifier),
+        literal: $ => choice($.number, $.format_string, $.string, $.boolean, $.null, $.char),
         number: $ => /\d+(\.\d+)?/,
         string: $ => /\"[^\"]*\"/,
+        format_string: $ => /\$\"[^\"]*\"/,
+        char: $ => /\'[^\']*\'/,
         boolean: $ => choice('true', 'false'),
         null: $ => choice('null','NULL','nullptr'),
         
         assignment_expression: $ => prec.right(seq(
-            $.identifier,
-            '=',
+            $.expression,
+            choice('=', '+=', '-=', '/=', '*='),
             $.expression
         )),
+
+        subjective_expression: $ => choice(
+            seq(optional(choice('++', '--')), $.expression, choice('++', '--')),
+            seq(choice('++', '--'), $.expression, optional(choice('++', '--')))
+        ),
         
         binary_expression: $ => choice(
             prec.left(1, seq($.expression, '+', $.expression)),
             prec.left(1, seq($.expression, '-', $.expression)),
             prec.left(2, seq($.expression, '*', $.expression)),
             prec.left(2, seq($.expression, '/', $.expression)),
+            prec.left(3, seq($.expression, '%', $.expression)),
             prec.left(3, seq($.expression, '==', $.expression)),
             prec.left(3, seq($.expression, '!=', $.expression)),
             prec.left(4, seq($.expression, '>', $.expression)),
@@ -265,6 +335,11 @@ module.exports = grammar({
             $.expression,
             $.argument_list
         ),
+
+        list_expression: $ => seq(
+            $.expression,
+            $.list_accessor
+        ),
         
         member_expression: $ => prec.left(8, seq(
             $.expression,
@@ -286,7 +361,14 @@ module.exports = grammar({
             commaSep1($.expression),
             '}'
         ),
-
+        inline_ifelse_expression: $ => seq(
+            $.expression,
+            '?',
+            $.expression,
+            ':',
+            $.expression
+        ),
+        cast_expression: $ => seq('(',$.type_annotation,')',$.expression),
         this_expression: $ => 'this',
 
         super_expression: $ => 'super',
@@ -297,16 +379,23 @@ module.exports = grammar({
           ')'
         ),
 
+        list_accessor: $ => seq(
+            '[',
+            choice($.expression, $.literal),
+            ']'
+        ),
+
         identifier: $ => /[A-z_]+/,
         templated: $ => prec.left(4,seq(
             $.identifier,
             '<',
             commaSep1($.type_annotation),
-            '>'
+            '>',
+            optional(repeat('*'))
         )),
 
         type_annotation: $ => choice(
-            seq($.identifier, '*'),
+            seq($.identifier, repeat1('*')),
             $.templated,
             $.identifier
         ),
