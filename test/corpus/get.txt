@@ -1,0 +1,37 @@
+==================
+Get imports
+==================
+
+get => print
+get => print, ncurses
+get => print, ncurses, ngui/[IContainer, VerticalLayout], test
+
+---
+
+(source_file
+    (definition
+        (get_definition
+            (get_pathidentifier
+                (pathidentifier))))
+    (definition
+        (get_definition
+            (get_pathidentifier
+                (pathidentifier))
+            (get_pathidentifier
+                (pathidentifier))))
+    (definition
+        (get_definition
+            (get_pathidentifier
+                (pathidentifier))
+            (get_pathidentifier
+                (pathidentifier))
+            (get_pathidentifier
+                (pathidentifier)
+                (get_block
+                    (get_pathidentifier
+                        (pathidentifier))
+                    (get_pathidentifier
+                        (pathidentifier))))
+            (get_pathidentifier
+                (pathidentifier))))
+)
