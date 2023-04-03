@@ -91,3 +91,5 @@
     "."
     "*"
 ] @constant
+(call_expression (expression) @constant)
+(parameter_list) @variable.parameter
