@@ -21,11 +21,20 @@
     "else"
     "loop"
     "while"
+    "switch"
 ] @keyword
 [
-    ";"
-    "=>"
-] @constant
+    "from"
+    "in"
+    "until"
+    "case"
+    "default"
+    "do"
+    "dore"
+    "dobr"
+    "doco"
+    "doremi"
+] @function.builtin
 (comment) @comment
 (number) @number
 [
@@ -42,3 +51,26 @@
 (string) @string
 (identifier) @variable
 (type_annotation) @type.builtin
+[
+    "*"
+    "("
+    ")"
+    ">"
+    "<"
+    "<<<"
+    ">>>"
+    "=|="
+    "=&="
+    "="
+    "<="
+    ">="
+    "=!="
+    "!="
+] @operator
+[
+    ";"
+    "=>"
+    "->"
+    "."
+    "*"
+] @constant
