@@ -13,6 +13,7 @@
     "new"
     "select"
     "get"
+    "compiler"
     "let"
     "inc"
     "use"
@@ -55,6 +56,7 @@
 (type_annotation) @type.builtin
 [
     "*"
+    ","
     "("
     ")"
     ">"
@@ -91,5 +93,3 @@
     "."
     "*"
 ] @constant
-(call_expression (expression) @constant)
-(parameter_list) @variable.parameter
