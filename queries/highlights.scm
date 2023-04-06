@@ -37,6 +37,8 @@
     "dobr"
     "doco"
     "doremi"
+    "break"
+    "continue"
 ] @function.builtin
 (comment) @comment
 (number) @number
