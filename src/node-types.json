@@ -688,7 +688,7 @@
       "required": true,
       "types": [
         {
-          "type": "block",
+          "type": "block_or_do",
           "named": true
         },
         {
@@ -858,6 +858,29 @@
         },
         {
           "type": "newline",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "lambda_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block_or_do",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "parameter_declaration",
           "named": true
         }
       ]
@@ -1305,6 +1328,10 @@
         },
         {
           "type": "if_statement",
+          "named": true
+        },
+        {
+          "type": "lambda_statement",
           "named": true
         },
         {

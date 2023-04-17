@@ -95,3 +95,4 @@
     "."
     "*"
 ] @constant
+(ERROR) @constant

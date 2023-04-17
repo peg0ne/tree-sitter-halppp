@@ -6,6 +6,7 @@ module.exports = grammar({
             [$.variable, $.variable],
             [$.adv_binary_expression, $.adv_binary_expression],
             [$.list_expression, $.list_expression],
+            [$.variable, $.lambda_statement]
         ],
 
 
@@ -119,6 +120,7 @@ module.exports = grammar({
         statement: ($) =>
             choice(
                 prec.left(1,$.let_statement),
+                prec.left(1,$.lambda_statement),
                 prec.left(2,$.expression_statement),
                 prec.left(2,$.if_statement),
                 prec.left(2,$.while_statement),
@@ -147,6 +149,14 @@ module.exports = grammar({
         let_statement: ($) => prec.left(7,seq(
             "let", $.identifier, '=', $.expression, $.newline
         )),
+        lambda_statement: ($) => seq(
+            ">", $.identifier,
+            commaSep($.identifier),
+            "(",
+            optional($.parameter_declaration),
+            ")",
+            $.block_or_do
+        ),
         create_simple_statement: ($) => seq(
             $.type_annotation, $.identifier, $.newline
         ),
@@ -393,7 +403,7 @@ module.exports = grammar({
             seq("{", commaSep1($.expression), "}"
         )),
         paren_expression: ($) =>
-            prec.left(6, seq("(", choice($.expression, /[A-Za-z0-9_]+/), ")")),
+            prec.left(6, seq("(", optional(choice($.expression, /[A-Za-z0-9_]+/)), ")")),
         cast_expression: ($) =>
             prec.left(7, seq("(", $.type_annotation, ")", $.expression)),
         this_expression: ($) => "this",
@@ -441,6 +451,10 @@ module.exports = grammar({
             ),
     },
 });
+
+function commaSep(rule) {
+    return seq(optional(rule), repeat(seq(",", rule)));
+}
 
 function commaSep1(rule) {
     return seq(rule, repeat(seq(",", rule)));

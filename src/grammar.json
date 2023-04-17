@@ -688,6 +688,14 @@
         },
         {
           "type": "PREC_LEFT",
+          "value": 1,
+          "content": {
+            "type": "SYMBOL",
+            "name": "lambda_statement"
+          }
+        },
+        {
+          "type": "PREC_LEFT",
           "value": 2,
           "content": {
             "type": "SYMBOL",
@@ -894,6 +902,76 @@
           }
         ]
       }
+    },
+    "lambda_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ">"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "identifier"
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "identifier"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "parameter_declaration"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block_or_do"
+        }
+      ]
     },
     "create_simple_statement": {
       "type": "SEQ",
@@ -1134,7 +1212,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "block"
+          "name": "block_or_do"
         }
       ]
     },
@@ -2655,12 +2733,20 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "expression"
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "expression"
+                  },
+                  {
+                    "type": "PATTERN",
+                    "value": "[A-Za-z0-9_]+"
+                  }
+                ]
               },
               {
-                "type": "PATTERN",
-                "value": "[A-Za-z0-9_]+"
+                "type": "BLANK"
               }
             ]
           },
@@ -2947,6 +3033,10 @@
     [
       "list_expression",
       "list_expression"
+    ],
+    [
+      "variable",
+      "lambda_statement"
     ]
   ],
   "precedences": [],
