@@ -185,7 +185,7 @@ module.exports = grammar({
                 seq("while", $.expression, $.block_or_do),
                 seq("loop", $.newline, $.block_or_do)
             ),
-        for_statement: ($) => seq("for", $.variable, "until", $.expression, $.block),
+        for_statement: ($) => seq("for", $.variable, "until", $.expression, $.block_or_do),
         foreach_statement: ($) => seq(
                 "foreach",
                 optional(seq($.variable, ",")),
