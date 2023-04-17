@@ -692,6 +692,25 @@
           "named": true
         },
         {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "variable",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "foreach_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
           "type": "block_or_do",
           "named": true
         },
@@ -1329,6 +1348,10 @@
         },
         {
           "type": "for_statement",
+          "named": true
+        },
+        {
+          "type": "foreach_statement",
           "named": true
         },
         {

@@ -138,6 +138,7 @@ module.exports = grammar({
                 prec.left(2,$.if_statement),
                 prec.left(2,$.while_statement),
                 prec.left(2,$.for_statement),
+                prec.left(2,$.foreach_statement),
                 prec.left(2,$.select_statement),
                 prec.left(2,$.switch_statement),
                 prec.left(2,$.comment)
@@ -184,17 +185,14 @@ module.exports = grammar({
                 seq("while", $.expression, $.block_or_do),
                 seq("loop", $.newline, $.block_or_do)
             ),
-        for_statement: ($) =>
-            choice(
-                seq("for", $.variable, "until", $.expression, $.block),
-                seq(
-                    "foreach",
-                    optional(seq($.variable, ",")),
-                    $.variable,
-                    "in",
-                    $.expression,
-                    $.block_or_do
-                )
+        for_statement: ($) => seq("for", $.variable, "until", $.expression, $.block),
+        foreach_statement: ($) => seq(
+                "foreach",
+                optional(seq($.variable, ",")),
+                $.variable,
+                "in",
+                $.expression,
+                $.block_or_do
             ),
         block_or_do: ($) =>
             choice(
