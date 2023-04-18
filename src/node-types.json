@@ -1172,7 +1172,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -1324,6 +1324,10 @@
         },
         {
           "type": "for_statement",
+          "named": true
+        },
+        {
+          "type": "foreach_statement",
           "named": true
         },
         {

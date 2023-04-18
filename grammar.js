@@ -125,6 +125,7 @@ module.exports = grammar({
                 prec.left(2,$.if_statement),
                 prec.left(2,$.while_statement),
                 prec.left(2,$.for_statement),
+                prec.left(2,$.foreach_statement),
                 prec.left(2,$.select_statement),
                 prec.left(2,$.switch_statement),
                 prec.left(2,$.return_statement),
@@ -292,6 +293,7 @@ module.exports = grammar({
                 prec.left(7,$.super_expression),
                 prec.left(8,$.variable),
                 prec.left(8,$.literal),
+                prec.left(9,seq("(",$.expression,")")),
             ),
         variable: ($) => seq(optional("&"), $.identifier, optional(choice($.argument_list ,$.list_accessor))),
         literal: ($) =>
