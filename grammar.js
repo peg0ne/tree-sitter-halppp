@@ -6,7 +6,8 @@ module.exports = grammar({
             [$.variable, $.variable],
             [$.adv_binary_expression, $.adv_binary_expression],
             [$.list_expression, $.list_expression],
-            [$.variable, $.lambda_statement]
+            [$.variable, $.lambda_statement],
+            [$.variable, $.match_statement]
         ],
 
 
@@ -121,6 +122,7 @@ module.exports = grammar({
             choice(
                 prec.left(1,$.let_statement),
                 prec.left(1,$.lambda_statement),
+                prec.left(1,$.match_statement),
                 prec.left(2,$.expression_statement),
                 prec.left(2,$.if_statement),
                 prec.left(2,$.while_statement),
@@ -148,7 +150,10 @@ module.exports = grammar({
             ),
         expression_statement: ($) => seq($.expression, $.newline),
         let_statement: ($) => prec.left(7,seq(
-            "let", $.identifier, '=', $.expression, $.newline
+            "let", $.identifier, '=', choice(
+                $.match_statement,
+                seq($.expression, $.newline)
+            )
         )),
         lambda_statement: ($) => seq(
             ">", $.identifier,
@@ -157,6 +162,15 @@ module.exports = grammar({
             optional($.parameter_declaration),
             ")",
             $.block_or_do
+        ),
+        match_statement: ($) => seq(
+            optional(seq($.identifier, "=")),
+            "match", $.expression_statement,
+            repeat1(seq(
+                $.expression, "=>",
+                $.block_or_do
+            )),
+            ";"
         ),
         create_simple_statement: ($) => seq(
             $.type_annotation, $.identifier, $.newline

@@ -12,6 +12,7 @@
     "return"
     "new"
     "select"
+    "match"
     "get"
     "compiler"
     "let"
