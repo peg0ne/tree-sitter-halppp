@@ -1925,6 +1925,10 @@
     "named": false
   },
   {
+    "type": "static",
+    "named": false
+  },
+  {
     "type": "string",
     "named": true
   },

@@ -7,7 +7,8 @@ module.exports = grammar({
             [$.adv_binary_expression, $.adv_binary_expression],
             [$.list_expression, $.list_expression],
             [$.variable, $.lambda_statement],
-            [$.variable, $.match_statement]
+            [$.variable, $.match_statement],
+            [$.class_body, $.method_definition]
         ],
 
 
@@ -85,6 +86,7 @@ module.exports = grammar({
             ),
         class_property: ($) =>
             seq(
+                optional("static"),
                 $.type_annotation,
                 $.identifier,
                 choice(
@@ -101,6 +103,8 @@ module.exports = grammar({
             ),
         method_definition: ($) =>
             seq(
+                optional("private"),
+                optional("static"),
                 "fn",
                 choice($.identifier, $.templated),
                 optional($.parameter_list),
