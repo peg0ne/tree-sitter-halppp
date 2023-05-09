@@ -171,6 +171,7 @@ module.exports = grammar({
             optional(seq($.identifier, "=")),
             "match", $.expression_statement,
             repeat1(seq(
+                optional(choice(">", "<", "!=", ">=", "<=", ".", "->")),
                 $.expression, "=>",
                 $.block_or_do
             )),
