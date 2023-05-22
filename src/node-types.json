@@ -310,7 +310,30 @@
           "named": true
         },
         {
+          "type": "class_extender_statement",
+          "named": true
+        },
+        {
           "type": "class_property",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "class_extender_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "fatarrow",
+          "named": true
+        },
+        {
+          "type": "newline",
           "named": true
         }
       ]
@@ -880,7 +903,7 @@
           "named": true
         },
         {
-          "type": "parameter_declaration",
+          "type": "parameter_declaration_list",
           "named": true
         }
       ]
@@ -1390,6 +1413,10 @@
           "named": true
         },
         {
+          "type": "try_statement",
+          "named": true
+        },
+        {
           "type": "while_statement",
           "named": true
         }
@@ -1491,6 +1518,21 @@
         },
         {
           "type": "type_annotation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "try_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "statement",
           "named": true
         }
       ]
@@ -1765,6 +1807,10 @@
     "named": false
   },
   {
+    "type": "catch",
+    "named": false
+  },
+  {
     "type": "char",
     "named": true
   },
@@ -1822,6 +1868,10 @@
   },
   {
     "type": "enum",
+    "named": false
+  },
+  {
+    "type": "extend",
     "named": false
   },
   {
@@ -1950,6 +2000,10 @@
   },
   {
     "type": "true",
+    "named": false
+  },
+  {
+    "type": "try",
     "named": false
   },
   {

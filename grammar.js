@@ -30,6 +30,7 @@ module.exports = grammar({
         class_expr: $ => choice(
             prec.left(1,$.class_constructor),
             prec.left(2,$.class_property),
+            prec.left(3,$.class_extender_statement)
         ),
 
         _include: ($) => /[A-z_\.\"\/]+/,
@@ -84,6 +85,12 @@ module.exports = grammar({
                 ),
                 ";"
             ),
+        class_extender_statement: ($) =>
+            seq(
+                "extend", $.fatarrow,
+                /[^\n]*/,
+                $.newline
+            ),
         class_property: ($) =>
             seq(
                 optional("static"),
@@ -127,6 +134,7 @@ module.exports = grammar({
                 prec.left(1,$.let_statement),
                 prec.left(1,$.lambda_statement),
                 prec.left(1,$.match_statement),
+                prec.left(1,$.try_statement),
                 prec.left(2,$.expression_statement),
                 prec.left(2,$.if_statement),
                 prec.left(2,$.while_statement),
@@ -159,11 +167,19 @@ module.exports = grammar({
                 seq($.expression, $.newline)
             )
         )),
+        try_statement: ($) => seq(
+            "try", "{",
+            repeat(seq($.statement, ";")),
+            "}",
+            "catch", "(", /[^)]*/, ")", "{",
+            repeat(seq($.statement, ";")),
+            "}"
+        ),
         lambda_statement: ($) => seq(
             ">", $.identifier,
             commaSep($.identifier),
             "(",
-            optional($.parameter_declaration),
+            optional($.parameter_declaration_list),
             ")",
             $.block_or_do
         ),
