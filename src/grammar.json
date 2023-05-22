@@ -8,6 +8,10 @@
         "members": [
           {
             "type": "SYMBOL",
+            "name": "named_statement"
+          },
+          {
+            "type": "SYMBOL",
             "name": "import_statement"
           },
           {
@@ -147,6 +151,59 @@
         {
           "type": "SYMBOL",
           "name": "newline"
+        }
+      ]
+    },
+    "named_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "named"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "fatarrow"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "newline"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "class_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "enum_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "glob_declaration"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "method_definition"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "comment"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ";"
         }
       ]
     },

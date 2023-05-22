@@ -16,6 +16,7 @@ module.exports = grammar({
         program: ($) =>
             repeat(
                 choice(
+                    $.named_statement,
                     $.import_statement,
                     $.include_statement,
                     $.compiler_statement,
@@ -43,6 +44,21 @@ module.exports = grammar({
                 $.fatarrow,
                 commaSep1($._include),
                 $.newline
+            ),
+        named_statement: ($) =>
+            seq(
+                "named", $.fatarrow, $.identifier,
+                $.newline,
+                repeat(
+                    choice(
+                        $.class_declaration,
+                        $.enum_declaration,
+                        $.glob_declaration,
+                        $.method_definition,
+                        $.comment
+                    )
+                ),
+                ";"
             ),
         import_statement: ($) =>
             seq("get", $.fatarrow, commaSep1($._get), $.newline),
