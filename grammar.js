@@ -347,6 +347,7 @@ module.exports = grammar({
                 prec.left(7,$.this_expression),
                 prec.left(7,$.super_expression),
                 prec.left(8,$.variable),
+                prec.left(8,$.c_lamba_expression),
                 prec.left(8,$.literal),
                 prec.left(9,seq("(",$.expression,")")),
             ),
@@ -455,9 +456,19 @@ module.exports = grammar({
         accessor_expression: ($) =>
             prec.left(8, seq($.identifier, "::", $.identifier)),
 
+        c_lamba_expression: ($) =>
+            prec.left(8, seq(
+                "[", commaSep($.identifier), "]",
+                $.argument_list,
+                $.c_bracketed_expression
+            )),
+
         bracketed_expression: ($) => choice(
             seq('{','}'),
             seq("{", commaSep1($.expression), "}"
+        )),
+        c_bracketed_expression: ($) => choice(
+            seq("{", repeat(seq($.statement, ";")), "}"
         )),
         paren_expression: ($) =>
             prec.left(6, seq("(", optional(choice($.expression, /[A-Za-z0-9_]+/)), ")")),

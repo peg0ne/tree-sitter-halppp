@@ -144,6 +144,44 @@
     }
   },
   {
+    "type": "c_bracketed_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "c_lamba_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument_list",
+          "named": true
+        },
+        {
+          "type": "c_bracketed_expression",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "call_expression",
     "named": true,
     "fields": {},
@@ -613,6 +651,10 @@
         },
         {
           "type": "bracketed_expression",
+          "named": true
+        },
+        {
+          "type": "c_lamba_expression",
           "named": true
         },
         {
