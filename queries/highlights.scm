@@ -7,6 +7,7 @@
     "enum"
     "glob"
     "delete"
+    "raw"
 ] @function
 [
     "return"

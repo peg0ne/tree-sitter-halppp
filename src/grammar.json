@@ -41,6 +41,10 @@
           {
             "type": "SYMBOL",
             "name": "comment"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "raw"
           }
         ]
       }
@@ -197,6 +201,10 @@
               {
                 "type": "SYMBOL",
                 "name": "comment"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "raw"
               }
             ]
           }
@@ -935,6 +943,14 @@
             "type": "SYMBOL",
             "name": "comment"
           }
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": 2,
+          "content": {
+            "type": "SYMBOL",
+            "name": "raw"
+          }
         }
       ]
     },
@@ -1003,6 +1019,14 @@
           "content": {
             "type": "SYMBOL",
             "name": "comment"
+          }
+        },
+        {
+          "type": "PREC_LEFT",
+          "value": 2,
+          "content": {
+            "type": "SYMBOL",
+            "name": "raw"
           }
         }
       ]
@@ -3358,6 +3382,26 @@
                   "value": "/"
                 }
               ]
+            }
+          ]
+        }
+      }
+    },
+    "raw": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": -1,
+        "content": {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "raw "
+            },
+            {
+              "type": "PATTERN",
+              "value": ".*"
             }
           ]
         }

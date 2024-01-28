@@ -24,7 +24,8 @@ module.exports = grammar({
                     $.enum_declaration,
                     $.glob_declaration,
                     $.method_definition,
-                    $.comment
+                    $.comment,
+                    $.raw
                 )
             ),
 
@@ -55,7 +56,8 @@ module.exports = grammar({
                         $.enum_declaration,
                         $.glob_declaration,
                         $.method_definition,
-                        $.comment
+                        $.comment,
+                        $.raw
                     )
                 ),
                 ";"
@@ -163,7 +165,8 @@ module.exports = grammar({
                 prec.left(2,$.continue_statement),
                 prec.left(2,$.create_statement),
                 prec.left(2,$.create_simple_statement),
-                prec.left(2,$.comment)
+                prec.left(2,$.comment),
+                prec.left(2,$.raw)
             ),
         statement_no_case: ($) =>
             choice(
@@ -174,7 +177,8 @@ module.exports = grammar({
                 prec.left(2,$.foreach_statement),
                 prec.left(2,$.select_statement),
                 prec.left(2,$.switch_statement),
-                prec.left(2,$.comment)
+                prec.left(2,$.comment),
+                prec.left(2,$.raw)
             ),
         expression_statement: ($) => seq($.expression, $.newline),
         let_statement: ($) => prec.left(7,seq(
@@ -500,6 +504,14 @@ module.exports = grammar({
                         seq("//", /.*/),
                         seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")
                     )
+                )
+            ),
+
+        raw: ($) =>
+            token(
+                prec(
+                    -1,
+                    seq("raw ", /.*/)
                 )
             ),
     },
