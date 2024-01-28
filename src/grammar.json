@@ -3488,24 +3488,17 @@
       }
     },
     "raw": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": -1,
-        "content": {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "raw "
-            },
-            {
-              "type": "PATTERN",
-              "value": ".*"
-            }
-          ]
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": " raw "
+        },
+        {
+          "type": "PATTERN",
+          "value": ".*"
         }
-      }
+      ]
     }
   },
   "extras": [

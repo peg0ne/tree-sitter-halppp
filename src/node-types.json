@@ -1377,6 +1377,11 @@
     }
   },
   {
+    "type": "raw",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "raw_string",
     "named": true,
     "fields": {},
@@ -1728,6 +1733,10 @@
     "named": false
   },
   {
+    "type": " raw ",
+    "named": false
+  },
+  {
     "type": "!",
     "named": false
   },
@@ -2074,10 +2083,6 @@
   {
     "type": "pub",
     "named": false
-  },
-  {
-    "type": "raw",
-    "named": true
   },
   {
     "type": "return",

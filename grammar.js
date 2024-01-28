@@ -518,13 +518,7 @@ module.exports = grammar({
                 )
             ),
 
-        raw: ($) =>
-            token(
-                prec(
-                    -1,
-                    seq("raw ", /.*/)
-                )
-            ),
+        raw: ($) => seq(" raw ", /.*/),
     },
 });
 
