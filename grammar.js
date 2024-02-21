@@ -69,8 +69,7 @@ module.exports = grammar({
                 "enum",
                 $.identifier,
                 $.newline,
-                commaSep1($.identifier),
-                ",",
+                repeat(seq($.identifier, ",", "\n")),
                 ";"
             ),
         glob_declaration: ($) =>
@@ -249,7 +248,7 @@ module.exports = grammar({
         while_statement: ($) =>
             choice(
                 seq("while", $.expression, $.block_or_do),
-                seq("loop", $.newline, $.block_or_do)
+                seq("loop", $.block_or_do)
             ),
         for_statement: ($) => seq("for", $.variable, "until", $.expression, $.block_or_do),
         foreach_statement: ($) => seq(
@@ -311,10 +310,10 @@ module.exports = grammar({
             seq(
                 choice("do", "dobr", "dore", "doco", "doremi"),
                 choice(
-                    $.expression_statement,
-                    $.return_statement,
                     $.continue_statement,
-                    $.break_statement
+                    $.return_statement,
+                    $.break_statement,
+                    $.expression_statement
                 )
             ),
         return_statement: ($) =>
@@ -528,4 +527,8 @@ function commaSep(rule) {
 
 function commaSep1(rule) {
     return seq(rule, repeat(seq(",", rule)));
+}
+
+function commaSep1NewLine(rule) {
+    return seq(rule, repeat(seq(",", "\n", rule)));
 }

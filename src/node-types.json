@@ -1253,6 +1253,11 @@
     }
   },
   {
+    "type": "newline",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "null",
     "named": true,
     "fields": {}
@@ -1720,13 +1725,13 @@
         {
           "type": "expression",
           "named": true
-        },
-        {
-          "type": "newline",
-          "named": true
         }
       ]
     }
+  },
+  {
+    "type": "\n",
+    "named": false
   },
   {
     "type": " ",
@@ -2051,10 +2056,6 @@
   {
     "type": "new",
     "named": false
-  },
-  {
-    "type": "newline",
-    "named": true
   },
   {
     "type": "newline_char",
